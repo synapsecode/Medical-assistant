@@ -1,0 +1,120 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
+import 'package:medical_assistant/doctors/session/screens/sessionresults_screen.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
+class SessionScreen extends StatefulWidget {
+  const SessionScreen({super.key});
+
+  @override
+  State<SessionScreen> createState() => _SessionScreenState();
+}
+
+class _SessionScreenState extends State<SessionScreen> {
+  SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  bool _isMicOn = false;
+  String _lastWords = '';
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.indigo,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _isMicOn
+                ? Column(
+                    children: [
+                      Text(
+                        'Go on...',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      LottieBuilder.asset('assets/recording.json'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white),
+                          onPressed: () {
+                            _stopListening();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => SessionResultScreen(
+                                        speechResult: _lastWords))));
+                          },
+                          icon: Icon(Icons.stop),
+                          label: Text('Generate')),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Text(
+                        'Start Session',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            SystemSound.play(SystemSoundType.click);
+                            setState(() {
+                              _isMicOn = !_isMicOn;
+                            });
+                            _startListening();
+                          },
+                          icon: Icon(
+                            Icons.mic,
+                            color: Colors.white,
+                            size: 50,
+                          )),
+                    ],
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+}
