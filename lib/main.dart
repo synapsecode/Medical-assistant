@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_assistant/modules/auth/screens/login_screen.dart';
 import 'package:medical_assistant/modules/doctors/home/screens/doctor_home_screen.dart';
 import 'package:medical_assistant/modules/doctors/session/screens/session_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
