@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:medical_assistant/doctors/session/screens/sessionresults_screen.dart';
+import 'package:medical_assistant/modules/doctors/session/screens/sessionresults_screen.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -13,12 +13,12 @@ class SessionScreen extends StatefulWidget {
 }
 
 class _SessionScreenState extends State<SessionScreen> {
-  SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
+  final SpeechToText _speechToText = SpeechToText();
+
   bool _isMicOn = false;
   String _lastWords = '';
   void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
+    await _speechToText.initialize();
     setState(() {});
   }
 

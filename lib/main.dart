@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medical_assistant/doctors/session/screens/session_screen.dart';
+import 'package:medical_assistant/modules/auth/screens/login_screen.dart';
+import 'package:medical_assistant/modules/doctors/home/screens/doctor_home_screen.dart';
+import 'package:medical_assistant/modules/doctors/session/screens/session_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SessionScreen(),
+      home: const LoginScreen(),
     );
   }
 }
