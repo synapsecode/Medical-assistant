@@ -9,19 +9,17 @@ class MedicationReminderRegistrar {
   static Future<bool> registerMedication({
     required String medicationName,
     required String timing,
-    required String medicationDosage,
+    required String instructions,
   }) async {
-    final deviceToken = (await SharedPreferences.getInstance())
-            .getString('ffpns_device_token') ??
-        'NULL';
+    final prefs = (await SharedPreferences.getInstance());
+    final deviceToken = prefs.getString('ffpns_device_token') ?? 'NULL';
 
     final resp = await _append({
       "payload": {
-        "mid": "${medicationName}_$medicationDosage",
+        "mid": medicationName.toLowerCase(),
       },
       "deviceToken": deviceToken,
-      "content":
-          "Hey there! It's time to take $medicationName($medicationDosage)",
+      "content": instructions,
       "title": "$medicationName Medication Reminder",
       "time": timing,
     });

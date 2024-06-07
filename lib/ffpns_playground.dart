@@ -14,7 +14,7 @@ class FFPNSPlayground extends StatelessWidget {
             final z = await MedicationReminderRegistrar.registerMedication(
               medicationName: 'VitaminB12 Sparc',
               timing: "17:50",
-              medicationDosage: "400mg",
+              instructions: "Take it with a glass of water",
             );
             print(z);
           },
