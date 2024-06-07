@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:medical_assistant/backend/autopn_registrar.dart';
 
 class FFPNSPlayground extends StatelessWidget {
   const FFPNSPlayground({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Add Medication'),
+          onPressed: () async {
+            final z = await MedicationReminderRegistrar.registerMedication(
+              medicationName: 'VitaminB12 Sparc',
+              timing: "17:50",
+              medicationDosage: "400mg",
+            );
+            print(z);
+          },
+        ),
+      ),
+    );
   }
 }
 

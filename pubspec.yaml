@@ -40,6 +40,7 @@ dependencies:
     git:
       url: https://github.com/synapsecode/ffpns.git
   shared_preferences:
+  http:
 
 
   # The following adds the Cupertino Icons font to your application.
